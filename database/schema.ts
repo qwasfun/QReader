@@ -1,6 +1,6 @@
 import { pgTable, serial, text, timestamp, integer } from 'drizzle-orm/pg-core'
 
-export const rssFeed = pgTable('rss_feeds', {
+export const feed = pgTable('rss_feeds', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
   feedLink: text('feed_link').unique().notNull(),
@@ -9,7 +9,7 @@ export const rssFeed = pgTable('rss_feeds', {
   updatedAt: timestamp('updated_at').defaultNow(),
 })
 
-export const rssPost = pgTable('rss_posts', {
+export const post = pgTable('rss_posts', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
   link: text('link').unique().notNull(),
@@ -18,11 +18,11 @@ export const rssPost = pgTable('rss_posts', {
   pubDate: timestamp('pub_date').notNull(),
   feedId: integer('feed_id')
     .notNull()
-    .references(() => rssFeed.id),
+    .references(() => feed.id),
   createdAt: timestamp('createdAt').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow(),
 })
 
 // Type inference for Drizzle queries
-export type PostSelect = typeof rssPost.$inferSelect
-export type FeedSelect = typeof rssFeed.$inferSelect
+export type PostSelect = typeof post.$inferSelect
+export type FeedSelect = typeof feed.$inferSelect

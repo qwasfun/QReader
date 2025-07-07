@@ -1,7 +1,7 @@
 import { desc } from 'drizzle-orm'
 import { PostList } from '../componnets/PostList'
 import { db } from '../../database/drizzle'
-import { rssPost, PostSelect } from '../../database/schema'
+import { post, PostSelect } from '../../database/schema'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,8 +16,8 @@ export default async function Page(props: PageProps) {
   const page: number = Number(searchParams?.p ?? 1)
   const postList: PostSelect[] = await db
     .select()
-    .from(rssPost)
-    .orderBy(desc(rssPost.pubDate))
+    .from(post)
+    .orderBy(desc(post.pubDate))
     .limit(pageSize)
     .offset((page - 1) * pageSize)
 
