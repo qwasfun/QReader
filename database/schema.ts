@@ -22,3 +22,7 @@ export const rssPost = pgTable('rss_posts', {
   createdAt: timestamp('createdAt').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow(),
 })
+
+// Type inference for Drizzle queries
+export type PostSelect = typeof rssPost.$inferSelect
+export type FeedSelect = typeof rssFeed.$inferSelect

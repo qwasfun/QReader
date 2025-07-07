@@ -1,15 +1,20 @@
+import { desc } from 'drizzle-orm'
 import { PostList } from '../componnets/PostList'
 import { db } from '../../database/drizzle'
-import { rssPost } from '../../database/schema'
-import { desc } from 'drizzle-orm'
+import { rssPost, PostSelect } from '../../database/schema'
 
 export const dynamic = 'force-dynamic'
 
-export default async function Home(props: { searchParams: any }) {
-  const searchParams = await props.searchParams
-  const pageSize = 20
-  const page = searchParams.p ?? 1
-  const postList = await db
+interface PageProps {
+  searchParams: Promise<Record<string, string | undefined>>
+}
+
+export default async function Page(props: PageProps) {
+  const searchParams: Record<string, string | undefined> =
+    await props.searchParams
+  const pageSize: number = 20
+  const page: number = Number(searchParams?.p ?? 1)
+  const postList: PostSelect[] = await db
     .select()
     .from(rssPost)
     .orderBy(desc(rssPost.pubDate))

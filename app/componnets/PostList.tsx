@@ -2,22 +2,20 @@ import Link from 'next/link'
 
 import { formatDate } from '../utils/formatDate'
 
-interface PostProps {
-  id: number
-  link: string
-  title: string
-  pubDate: string
-  enhancedName?: string
-  hasEnhanced: boolean
+import { PostSelect } from '../../database/schema'
+
+interface PostListProps {
+  page?: number
+  list: PostSelect[]
 }
 
-export function PostList(props: { page?: any; list?: any }) {
+export function PostList(props: PostListProps) {
   const { list } = props
 
   return (
     <div>
       {list.length != 0 ? (
-        list.map((post: PostProps) => (
+        list.map((post: PostSelect) => (
           <Link
             key={post.id}
             target="_blank"
@@ -41,8 +39,8 @@ export function PostList(props: { page?: any; list?: any }) {
       <div className="w-full flex flex-col md:flex-row space-x-0 justify-between">
         <div>
           <Link
-            href={`/reader?p=${props.page - 1}`}
-            className={props.page <= 1 ? 'hidden' : ''}
+            href={`/reader?p=${props.page! - 1}`}
+            className={props.page && props.page <= 1 ? 'hidden' : ''}
           >
             <div className="rounded-4xl bg-black px-3.5 py-1.25 my-1 text-[0.8125rem]/6 text-center font-semibold text-white hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600">
               上一页
@@ -51,7 +49,7 @@ export function PostList(props: { page?: any; list?: any }) {
         </div>
         <div>
           <Link
-            href={`/reader?p=${props.page - 0 + 1}`}
+            href={`/reader?p=${(props.page ?? 0) + 1}`}
             className={list.length < 20 ? 'hidden' : ''}
           >
             <div className="rounded-4xl bg-black px-3.5 py-1.25 my-1 text-[0.8125rem]/6 text-center font-semibold text-white hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600">

@@ -1,4 +1,4 @@
-export function formatDate(date: string, isShowTime: boolean = true) {
+export function formatDate(date: Date, isShowTime: boolean = true) {
   const targetDate = new Date(date)
   if (isShowTime) {
     return targetDate.toLocaleString('zh-CN', {
